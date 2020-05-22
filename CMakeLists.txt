@@ -208,17 +208,20 @@ link_directories(
 
 set(OPENCL_CLANG_LINK_LIBS ${CMAKE_DL_LIBS})
 
-if(NOT LLVMSPIRVLib IN_LIST LLVM_AVAILABLE_LIBS OR (USE_PREBUILT_LLVM AND LLVM_LINK_LLVM_DYLIB))
+#if(NOT LLVMSPIRVLib IN_LIST LLVM_AVAILABLE_LIBS OR (USE_PREBUILT_LLVM AND LLVM_LINK_LLVM_DYLIB))
   # SPIRV-LLVM-Translator is not included into LLVM as a component.
   # So, we need to list it here explicitly as an external library
   list(APPEND OPENCL_CLANG_LINK_LIBS LLVMSPIRVLib)
-endif()
+#endif()
+
+list(APPEND OPENCL_CLANG_LINK_LIBS LLVMX86AsmParser)
+list(APPEND OPENCL_CLANG_LINK_LIBS LLVMX86CodeGen)
 
 add_subdirectory(cl_headers)
 
 set(LLVM_REQUIRES_EH ON)
 
-if(USE_PREBUILT_LLVM OR CLANG_LINK_CLANG_DYLIB)
+if(NO)#(USE_PREBUILT_LLVM OR CLANG_LINK_CLANG_DYLIB)
   list(APPEND OPENCL_CLANG_LINK_LIBS clang-cpp)
 else()
   list(APPEND OPENCL_CLANG_LINK_LIBS
@@ -253,6 +256,14 @@ else()
     clangAST
     clangLex
     clangBasic
+    LLVMOption
+    LLVMipo
+    LLVMFrontendOpenMP
+    LLVMSYCLLowerIR
+    LLVMCoroutines
+    LLVMPasses
+    LLVMCoverage
+    LLVMLTO
   )
 endif()
 
