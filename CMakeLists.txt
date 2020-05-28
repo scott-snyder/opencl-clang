@@ -221,7 +221,7 @@ add_subdirectory(cl_headers)
 
 set(LLVM_REQUIRES_EH ON)
 
-if(USE_PREBUILT_LLVM OR CLANG_LINK_CLANG_DYLIB)
+if(NO)#(USE_PREBUILT_LLVM OR CLANG_LINK_CLANG_DYLIB)
   list(APPEND OPENCL_CLANG_LINK_LIBS clang-cpp)
 else()
   list(APPEND OPENCL_CLANG_LINK_LIBS
@@ -230,7 +230,6 @@ else()
 # All duplicate libraries are there on purpose
     clangBasic
     clangCodeGen
-    clangSYCLLowerIR
     clangDriver
     clangFrontend
     clangFrontendTool
@@ -257,6 +256,14 @@ else()
     clangAST
     clangLex
     clangBasic
+    LLVMOption
+    LLVMipo
+    LLVMFrontendOpenMP
+    LLVMSYCLLowerIR
+    LLVMCoroutines
+    LLVMPasses
+    LLVMCoverage
+    LLVMLTO
   )
 endif()
 
